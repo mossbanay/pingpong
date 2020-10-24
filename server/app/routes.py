@@ -17,14 +17,19 @@ def index():
     return "index"
 
 
+@app.route("/get_ip")
+def get_ip():
+    return request.remote_addr
+
+
 @app.route("/get_nodes")
 def get_nodes():
-    return json.dumps(NODES)
+    return json.dumps(list(map(lambda x: dict(x._asdict()), NODES)))
 
 
 @app.route("/get_events")
 def get_events():
-    return json.dumps(EVENTS)
+    return json.dumps(list(map(lambda x: dict(x._asdict()), EVENTS)))
 
 
 @app.route("/register_node")
