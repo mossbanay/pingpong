@@ -5,9 +5,14 @@ from collections import namedtuple
 from pythonping import ping
 
 import requests
+import sys
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = "9001"
+
+if len(sys.argv) > 1:
+    SERVER_IP = sys.argv[-1]
+
 API_ROOT = f"http://{SERVER_IP}:{SERVER_PORT}"
 
 REGION_NAME = "UNKNOWN"

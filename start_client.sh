@@ -4,4 +4,4 @@ set -e
 
 cd client && source .venv/bin/activate
 pip install -r requirements.txt
-python client.py
+python client.py $1
