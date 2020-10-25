@@ -32,6 +32,12 @@ resource "aws_security_group" "ingress-all-test" {
     to_port   = 9001
     protocol  = "tcp"
   }
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = -1
+    to_port   = -1
+    protocol  = "icmp"
+  }
   egress {
     cidr_blocks = ["0.0.0.0/0"]
     from_port   = 0

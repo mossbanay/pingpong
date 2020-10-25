@@ -1,0 +1,38 @@
+{% for region in regions -%}
+module "client-{{ region }}" {
+  source = "./client"
+  region = "{{ region }}"
+}
+{% endfor %}
+
+module "server-ap-southeast-2" {
+  source = "./client"
+  region = "ap-southeast-2"
+}
+
+resource "local_file" "AnsibleInventory" {
+  content = templatefile("inventory.tmpl",
+    {
+      client_ip_addrs = [
+{% for region in regions -%}
+        module.client-{{ region }}.ip,
+{% endfor %}
+      ],
+      server_ip_addrs = [
+        module.server-ap-southeast-2.ip,
+      ]
+  })
+  filename        = "inventory"
+  file_permission = 644
+}
+
+resource "local_file" "ServerSummary" {
+  content = templatefile("summary.tmpl",
+    {
+{% for region in regions -%}
+        {{ region }}-ip = module.client-{{ region }}.ip,
+{% endfor %}
+  })
+  filename        = "summary.csv"
+  file_permission = 644
+}

@@ -1,0 +1,4 @@
+region,ip
+{% for region in regions -%}
+{{ region }},${{ '{' }}{{ region }}-ip{{ '}' }}
+{% endfor %}
