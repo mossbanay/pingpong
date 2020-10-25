@@ -33,3 +33,38 @@
   - name: Create initial virtualenv
     command:
       cmd: python3 -m venv /home/ubuntu/pingpong/client/.venv
+
+- name: Setup server servers
+  hosts: servers
+  gather_facts: no
+  remote_user: ubuntu
+
+  tasks:
+  - name: Update package lists
+    become: yes
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: Install basic packages
+    become: yes
+    apt:
+      pkg:
+      - python3-pip
+      - python3-venv
+      state: present
+
+#  - name: Remove existing repository
+#    file:
+#      path: /home/ubuntu/pingpong
+#      state: absent
+
+  - name: Clone code repository
+    git:
+      repo: https://github.com/mossbanay/pingpong.git
+      dest: /home/ubuntu/pingpong
+      force: yes
+
+  - name: Create initial virtualenv
+    command:
+      cmd: python3 -m venv /home/ubuntu/pingpong/server/.venv

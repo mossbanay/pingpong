@@ -1,4 +1,9 @@
 [clients]
-%{ for ip in ip_addrs ~}
+%{ for ip in client_ip_addrs ~}
+${ip}
+%{ endfor ~}
+
+[servers]
+%{ for ip in server_ip_addrs ~}
 ${ip}
 %{ endfor ~}
